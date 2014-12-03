@@ -8,44 +8,46 @@ new_deck = Deck.new
 player_hand = Hand.new
 dealer_hand = Hand.new
 
-2.times do
-  player_hand.hit(new_deck)
-end
+player_hand.hit(new_deck)
+dealer_hand.hit(new_deck)
+player_hand.hit(new_deck)
+dealer_hand.hit(new_deck)
 
-player_hand.cards.each do |card|
-  puts "Player was dealt: #{card.suit} #{card.value}"
-end
+
+  player_hand.cards.each do |card|
+  puts "Player was dealt: #{card.value} #{card.suit}"
+  end
 puts "Players score: #{player_hand.score}"
-print "Hit or stand (H/S): "
+
+puts "\nDealer was dealt: #{dealer_hand.cards[0].value} #{dealer_hand.cards[0].suit}"
+puts "Dealer was dealt: ***HIDDEN***"
+print "\nHit or stand (H/S): "
 
 
 while player_hand.score < 22
-  input = gets.chomp
+  input = gets.chomp.downcase
 
   if input == 'h'
     player_hand.hit(new_deck)
-    puts "Player was dealt: #{player_hand.cards.last.suit} #{player_hand.cards.last.value}"
+    puts "Player was dealt: #{player_hand.cards.last.value} #{player_hand.cards.last.suit}"
     puts "Players score: #{player_hand.score}"
     if player_hand.bust?
       puts "Bust! You lose..."
     else
-      print "Hit or stand (H/S): "
+      print "\nHit or stand (H/S): "
     end
 
   elsif input == 's'
     puts "Players score: #{player_hand.score}"
     puts "\n"
-    2.times do
-      dealer_hand.hit(new_deck)
-    end
 
     dealer_hand.cards.each do |card|
-      puts "Dealer was dealt: #{card.suit} #{card.value}"
+      puts "Dealer was dealt: #{card.value} #{card.suit}"
     end
 
     while dealer_hand.stay?
       dealer_hand.hit(new_deck)
-      puts "Dealer was dealt: #{dealer_hand.cards.last.suit} #{dealer_hand.cards.last.value}"
+      puts "Dealer was dealt: #{dealer_hand.cards.last.value} #{dealer_hand.cards.last.suit}"
 
     end
     if dealer_hand.bust?
@@ -61,7 +63,7 @@ while player_hand.score < 22
     elsif
       dealer_hand.score > player_hand.score && dealer_hand.score < 21
       puts "Dealer wins!"
-    elsif player_hand.score ==dealer_hand.score
+    elsif player_hand.score == dealer_hand.score
       puts "Tie!"
     end
     break
